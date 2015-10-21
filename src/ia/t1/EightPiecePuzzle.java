@@ -6,6 +6,8 @@
 
 package ia.t1;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Fabioclug
@@ -28,10 +30,12 @@ public class EightPiecePuzzle implements StateRepresentation {
     public int[] getContent() {
         return content;
     }
-
+    
     @Override
-    public boolean equals(StateRepresentation obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isAnswer() {
+        if(Arrays.equals(content, answer))
+            return true;
+        return false;
     }
 
     @Override

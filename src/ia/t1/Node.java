@@ -20,6 +20,7 @@ public class Node implements Comparable<Node> {
     int cost;
     int heuristic;
     int evaluate_function;
+    Node parent;
     
     Node(StateRepresentation state) {
         children = new ArrayList<Node>();
@@ -27,9 +28,11 @@ public class Node implements Comparable<Node> {
         this.state = state;
         cost = 0;
         this.heuristic = this.state.calculateHeuristic();
+        parent = null;
     }
     
     void addChild(Node child, int cost) {
+        child.setParent(this);
         children.add(child);
         costs.add(cost);
     }
@@ -64,6 +67,14 @@ public class Node implements Comparable<Node> {
     
     StateRepresentation getContent() {
         return state;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
     }
     
     @Override

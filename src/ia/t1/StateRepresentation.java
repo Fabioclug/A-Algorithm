@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ia.t1;
 
 /**
@@ -13,6 +7,6 @@ package ia.t1;
 public interface StateRepresentation {
     public void setContent(Object content);
     public Object getContent();
-    public boolean equals(StateRepresentation obj);
+    public boolean isAnswer();
     public int calculateHeuristic();
 }

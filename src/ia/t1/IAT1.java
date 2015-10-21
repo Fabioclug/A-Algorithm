@@ -7,6 +7,8 @@
 package ia.t1;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -16,13 +18,11 @@ import java.util.List;
 public class IAT1 {
     
     public static List<Node> generated = new ArrayList<Node>();
-    public static List<int[]> used = new ArrayList<int[]>();
+    public static HashMap<String,int[]> used = new HashMap<String,int[]>();
     
     public static boolean arrayContains(int[] c) {
-        for (int[] is : used) {
-            if(Arrays.equals(is,c))
-                return true;
-        }
+        if(used.containsKey(Arrays.toString(c)))
+            return true;
         //System.out.println(Arrays.toString(c));
         return false;
     }
@@ -41,7 +41,7 @@ public class IAT1 {
             b[i-1] = b[i];
             b[i] = aux;
             if(!arrayContains(b)) {
-                used.add(b.clone());
+                used.put(Arrays.toString(b), b.clone());
                 Node child = new Node(new EightPiecePuzzle(b.clone()));
                 tree.addChild(child, 1);
                 generated.add(child);
@@ -53,7 +53,7 @@ public class IAT1 {
             b[i-3] = b[i];
             b[i] = aux;
             if(!arrayContains(b)) {
-                used.add(b.clone());
+                used.put(Arrays.toString(b), b.clone());
                 Node child = new Node(new EightPiecePuzzle(b.clone()));
                 tree.addChild(child, 1);
                 generated.add(child);
@@ -65,7 +65,7 @@ public class IAT1 {
             b[i+1] = b[i];
             b[i] = aux;
             if(!arrayContains(b)) {
-                used.add(b.clone());
+                used.put(Arrays.toString(b), b.clone());
                 Node child = new Node(new EightPiecePuzzle(b.clone()));
                 tree.addChild(child, 1);
                 generated.add(child);
@@ -77,7 +77,7 @@ public class IAT1 {
             b[i+3] = b[i];
             b[i] = aux;
             if(!arrayContains(b)) {
-                used.add(b.clone());
+                used.put(Arrays.toString(b), b.clone());
                 Node child = new Node(new EightPiecePuzzle(b.clone()));
                 tree.addChild(child, 1);
                 generated.add(child);
@@ -86,25 +86,58 @@ public class IAT1 {
         
     }
     
+    public static boolean inversions(int[] game) {
+        int n_inversions = 0;
+        for (int i = 1; i < 9; i++) {
+            for (int j = 0; j < i; j++) {
+                if(game[i] != 0 && game[i] < game[j])
+                    n_inversions++;
+            }
+        }
+        return n_inversions % 2 == 0;
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         int[] game = {5,4,0,6,1,8,7,3,2};
-        int count = 0;
-        EightPiecePuzzle initial = new EightPiecePuzzle(game);
-        Node tree = new Node(initial);
-        used.add(game);
-        generated.add(tree);
-        while(!generated.isEmpty()) {
-            generate(generated.get(0));
-            generated.remove(0);
-            count++;
-            if((count % 100000) == 0)
-                System.out.println("olar");
+        if(inversions(game)) {
+            EightPiecePuzzle initial = new EightPiecePuzzle(game);
+            Node tree = new Node(initial);
+            used.put(Arrays.toString(game), game);
+            generated.add(tree);
+            while(!generated.isEmpty()) {
+                generate(generated.get(0));
+                generated.remove(0);   
+            }
+            AStar astar = new AStar();
+            try {
+                Node answer = astar.execute(tree, initial);
+                LinkedList<Node> path = new LinkedList<Node>();
+                Node ref = answer;
+                while(ref != null) {
+                    path.push(ref);
+                    ref = ref.getParent();
+                }
+                System.out.println("Número de jogadas: " + (path.size() - 1) + "\n");
+                int[] board;
+                for (Node node : path) {
+                    board = (int[]) node.getContent().getContent();
+                    for (int i = 0; i < 9; i++) {
+                        System.out.print(board[i] + " ");
+                        if((i+1) % 3 == 0)
+                            System.out.println("");
+                    }
+                    System.out.println("");
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.toString());
+            }
         }
-        System.out.println("fim");
-        System.out.println("asadfnvmfwd");
+        else {
+            System.out.println("Odd number of inversions! Can't solve...");
+        }
     }
     
 }

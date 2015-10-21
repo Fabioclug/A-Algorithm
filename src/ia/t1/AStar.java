@@ -27,15 +27,15 @@ public class AStar {
         children = new ArrayList<Node>();
     }
     
-    public void execute(Node root, StateRepresentation target) throws Exception {
+    public Node execute(Node root, StateRepresentation target) throws Exception {
        open.add(root);
        Node current;
        List<Integer> costs = new ArrayList<Integer>();
        int cost, ev_function;
        while(!open.isEmpty()) {
            current = open.remove(0);
-           if(current.getContent().equals(target))
-               return;
+           if(current.getContent().isAnswer())
+               return current;
            children = current.getChildren();
            costs = current.getCosts();
            for(int i=0; i < children.size(); i++) {
