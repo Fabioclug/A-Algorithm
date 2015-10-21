@@ -12,6 +12,7 @@ package ia.t1;
  */
 public interface StateRepresentation {
     public void setContent(Object content);
-    public StateRepresentation getContent();
+    public Object getContent();
     public boolean equals(StateRepresentation obj);
+    public int calculateHeuristic();
 }

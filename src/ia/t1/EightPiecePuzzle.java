@@ -12,25 +12,36 @@ package ia.t1;
  */
 public class EightPiecePuzzle implements StateRepresentation {
 
-    private int[][] content;
+    private int[] content;
+    private static final int[] answer = {1,2,3,4,5,6,7,8,0};
 
-    public EightPiecePuzzle() {
-        //content = new int[3][3];
+    public EightPiecePuzzle(int[] content) {
+        this.content = content;
     }
     
     @Override
     public void setContent(Object content) {
-        this.content = (int[][]) content;
+        this.content = (int[]) content;
     }
 
     @Override
-    public StateRepresentation getContent() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int[] getContent() {
+        return content;
     }
 
     @Override
     public boolean equals(StateRepresentation obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int calculateHeuristic() {
+        int heuristic = 0;
+        for (int i = 0; i < answer.length; i++) {
+            if(content[i] != answer[i])
+                heuristic++;
+        }
+        return heuristic;
     }
     
 }

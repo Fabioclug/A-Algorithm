@@ -21,12 +21,12 @@ public class Node implements Comparable<Node> {
     int heuristic;
     int evaluate_function;
     
-    Node(StateRepresentation state, int heuristic) {
+    Node(StateRepresentation state) {
         children = new ArrayList<Node>();
         costs = new ArrayList<Integer>();
         this.state = state;
         cost = 0;
-        this.heuristic = heuristic;
+        this.heuristic = this.state.calculateHeuristic();
     }
     
     void addChild(Node child, int cost) {
