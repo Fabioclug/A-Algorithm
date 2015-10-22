@@ -8,7 +8,6 @@ package ia.t1;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,7 +18,6 @@ public class AStar {
     private List<Node> open;
     private List<Node> closed;
     private List<Node> children;
-    private Node path;
     
     AStar() {
         open = new ArrayList<Node>();
@@ -53,7 +51,7 @@ public class AStar {
                        child.setEvaluateFunction(ev_function);
                    }
                }
-               else if(closed.contains(child)) {
+               else {
                    if(ev_function < child.getEvaluateFunction()) {
                        child.setCost(cost);
                        child.setEvaluateFunction(ev_function);

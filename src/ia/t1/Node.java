@@ -33,6 +33,7 @@ public class Node implements Comparable<Node> {
     
     void addChild(Node child, int cost) {
         child.setParent(this);
+        child.setCost(cost);
         children.add(child);
         costs.add(cost);
     }
