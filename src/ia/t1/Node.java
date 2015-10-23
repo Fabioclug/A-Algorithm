@@ -1,27 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ia.t1;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Fabioclug
- */
+
+// classe que representa um nó da árvore de busca
 public class Node implements Comparable<Node> {
-    private StateRepresentation state;
-    private List<Node> children;
-    private List<Integer> costs;
-    int cost;
-    int heuristic;
-    int evaluate_function;
-    Node parent;
+    private StateRepresentation state; // Representação do estado
+    private List<Node> children; // Lista de nós filhos
+    private List<Integer> costs; // Custos relacionados aos nós filhos
+    int cost; // Custo do nó
+    int heuristic; // Heurística do nó
+    int evaluate_function; // Função de avaliação do nó
+    Node parent; // Referência para o nó pai
     
+    // construtor
     Node(StateRepresentation state) {
         children = new ArrayList<Node>();
         costs = new ArrayList<Integer>();
@@ -31,6 +24,7 @@ public class Node implements Comparable<Node> {
         parent = null;
     }
     
+    // adiciona um nó à lista de filhos
     void addChild(Node child, int cost) {
         child.setParent(this);
         child.setCost(cost);
@@ -38,6 +32,7 @@ public class Node implements Comparable<Node> {
         costs.add(cost);
     }
     
+    // retorna a lista de filhos
     List<Node> getChildren(){
         return children;
     }
@@ -62,6 +57,7 @@ public class Node implements Comparable<Node> {
         this.evaluate_function = efunction;
     }
     
+    // retorna a lista de custos relacionados aos nós-filhos
     List<Integer> getCosts() {
         return costs;
     }
@@ -78,6 +74,8 @@ public class Node implements Comparable<Node> {
         this.parent = parent;
     }
     
+    // método que compara o nó com um outro passado por parâmetro
+    // usado como critério para a ordenação da lista de abertos
     @Override
     public int compareTo(Node otherNode) {
         return this.cost - otherNode.cost;

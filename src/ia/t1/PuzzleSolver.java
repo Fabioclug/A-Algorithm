@@ -7,10 +7,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- *
- * @author Fabioclug
- */
 public class PuzzleSolver {
     public List<Node> generated = new ArrayList<Node>();
     public HashMap<String,int[]> used = new HashMap<String,int[]>();
@@ -24,7 +20,7 @@ public class PuzzleSolver {
         return used.containsKey(Arrays.toString(c));
     }
     
-    public void generate(Node tree) {
+    public void generate(Node tree) { // Gera a árvore
         int i, aux;
         int[] a = (int[]) tree.getContent().getContent();
         int[] b;
@@ -32,19 +28,19 @@ public class PuzzleSolver {
             if(a[i] == 0)
                 break;
         }
-        if((i % 3) != 0) {
+        if((i % 3) != 0) { // Caso que o espaço vazio vai para a esquerda
             b = a.clone();
             aux = b[i-1];
             b[i-1] = b[i];
             b[i] = aux;
-            if(!arrayContains(b)) {
-                used.put(Arrays.toString(b), b.clone());
-                Node child = new Node(new EightPiecePuzzle(b.clone()));
+            if(!arrayContains(b)) { // Verifica se o array já está na lista de criados
+                used.put(Arrays.toString(b), b.clone()); // Utiliza uma hash para guardar os arrays já gerados
+                Node child = new Node(new EightPiecePuzzle(b.clone())); 
                 tree.addChild(child, 1);
                 generated.add(child);
             }
         }
-        if(i >= 3) {
+        if(i >= 3) { // Caso que o espaço vazio vai para cima
             b = a.clone();
             aux = b[i-3];
             b[i-3] = b[i];
@@ -56,7 +52,7 @@ public class PuzzleSolver {
                 generated.add(child);
             }
         }
-        if(((i-2) % 3) != 0) {
+        if(((i-2) % 3) != 0) { // Caso em que o espaço vazio vai para a direita
             b = a.clone();
             aux = b[i+1];
             b[i+1] = b[i];
@@ -68,7 +64,7 @@ public class PuzzleSolver {
                 generated.add(child);
             }
         }
-        if(i < 6) {
+        if(i < 6) { // Caso em que o espaço vazio vai para baixo
             b = a.clone();
             aux = b[i+3];
             b[i+3] = b[i];
@@ -83,7 +79,7 @@ public class PuzzleSolver {
         
     }
     
-    public static boolean isSolvable(int[] game) {
+    public static boolean isSolvable(int[] game) { //Verifica se o número de inversões é ímpar ou par
         int n_inversions = 0;
         for (int i = 1; i < 9; i++) {
             for (int j = 0; j < i; j++) {
@@ -95,19 +91,19 @@ public class PuzzleSolver {
     }
     
     public void solve() {
-        if(isSolvable(game)) {
+        if(isSolvable(game)) { // Caso o jogo tenha resolução
             EightPiecePuzzle initial = new EightPiecePuzzle(game);
             Node tree = new Node(initial);
             used.put(Arrays.toString(game), game);
             generated.add(tree);
-            while(!generated.isEmpty()) {
+            while(!generated.isEmpty()) { 
                 generate(generated.get(0));
                 generated.remove(0);   
             }
             AStar astar = new AStar();
             try {
                 Node answer = astar.execute(tree, initial);
-                LinkedList<Node> path = new LinkedList<Node>();
+                LinkedList<Node> path = new LinkedList<Node>(); // Caminho para o reultado
                 Node ref = answer;
                 while(ref != null) {
                     path.push(ref);

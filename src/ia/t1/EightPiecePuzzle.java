@@ -1,21 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ia.t1;
 
 import java.util.Arrays;
 
-/**
- *
- * @author Fabioclug
- */
+// classe que implementa a interface StateRepresentation
+// contém a representação específica do jogo
 public class EightPiecePuzzle implements StateRepresentation {
 
-    private int[] content;
-    private static final int[] answer = {1,2,3,4,5,6,7,8,0};
+    private int[] content; // Conteúdo do estado, nese caso um vetor de inteiros que representa o tabuleiro do jogo
+    private static final int[] answer = {1,2,3,4,5,6,7,8,0}; // Resultado Final
 
     public EightPiecePuzzle(int[] content) {
         this.content = content;
@@ -38,6 +30,7 @@ public class EightPiecePuzzle implements StateRepresentation {
         return false;
     }
 
+    // a heurística é calculada de acordo com o número de peças fora do lugar
     @Override
     public int calculateHeuristic() {
         int heuristic = 0;
