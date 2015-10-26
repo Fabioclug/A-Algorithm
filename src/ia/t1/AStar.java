@@ -15,7 +15,7 @@ public class AStar {
         children = new ArrayList<Node>(); 
     }
     
-    public Node execute(Node root, StateRepresentation target) throws Exception { // Execução do algortimo A*
+    public Node execute(Node root) throws Exception { // Execução do algortimo A*
        open.add(root);
        Node current;
        List<Integer> costs = new ArrayList<Integer>();
@@ -34,11 +34,13 @@ public class AStar {
                    child.setCost(cost);
                    child.setEvaluateFunction(ev_function);
                    open.add(child);
+                   child.setParent(current);
                }
                else if(open.contains(child)) { // Caso esteja na lista de abertos
                    if(ev_function < child.getEvaluateFunction()) {
                        child.setCost(cost);
                        child.setEvaluateFunction(ev_function);
+                       child.setParent(current);
                    }
                }
                else {
@@ -47,6 +49,7 @@ public class AStar {
                        child.setEvaluateFunction(ev_function);
                        closed.remove(child);
                        open.add(child);
+                       child.setParent(current);
                    }
                }  
            }

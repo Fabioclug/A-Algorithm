@@ -78,6 +78,6 @@ public class Node implements Comparable<Node> {
     // usado como critério para a ordenação da lista de abertos
     @Override
     public int compareTo(Node otherNode) {
-        return this.cost - otherNode.cost;
+        return this.evaluate_function - otherNode.evaluate_function;
     }
 }
